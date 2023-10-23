@@ -9,7 +9,7 @@ export default function HomePage() {
   const {user} = useContext(userContext)
   return (
         <>
-          <div>
+          <div className={style.home_page}>
           {user.role!=='admin'&&<UserComponents/>}
             {user.role==='admin'&&<AdminComponents/>}
           </div>

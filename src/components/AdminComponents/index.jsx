@@ -26,15 +26,18 @@ export default function AdminComponents() {
     getUsers();
     addUserRef.current.value=''
   }
+  useEffect(()=>{
+    getUsers()
+  },[])
   return (
-    <div>
-      <form onSubmit={adminAddUser}>
-      <Input placeholder='שם מלא' inputRef={addUserRef}/>
+    <div className={style.main}>
+      <form className={style.form} onSubmit={adminAddUser}>
+      <Input placeholder='שם מלא' inputRef={addUserRef} className={style.input_admin}/>
       <Button className={style.Button} type='submit' text="הוסף משתמש"/>
       </form>
       {allUsers.length > 0 &&
         allUsers.map((user) => (
-          <div className={style.userDiv}>
+          <div key={user._id} className={style.userDiv}>
             {user.fullName}
             <Button
               className={style.Button}
