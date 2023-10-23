@@ -1,16 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 import style from "./style.module.css";
-// import UserComponents from "../../components/userComponents";
 import { useContext } from "react";
 import { userContext } from "../../App";
 import AdminComponents from "../../components/AdminComponents";
+import UserComponents from "../../components/UserComponents";
 
 export default function HomePage() {
   const {user} = useContext(userContext)
   return (
         <>
           <div>
-            {/* <UserComponents/> */}
+            <UserComponents/>
             {user.role==='admin'&&<AdminComponents/>}
           </div>
         </>
