@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
         <>
           <div>
-            <UserComponents/>
+          {user.role!=='admin'&&<UserComponents/>}
             {user.role==='admin'&&<AdminComponents/>}
           </div>
         </>

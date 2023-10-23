@@ -4,7 +4,6 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_BASE_URL
 
 const apiCalls = async (method, url, data) => {
     axios.defaults.headers.common.Authorization = `Bearer ${localStorage.token}`
-    
     try {
         const res = await axios({
             method: method,
