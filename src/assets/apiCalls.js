@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = import.meta.env.SERVER_BASE_URL +'/api/'
+axios.defaults.baseURL = import.meta.env.SERVER_BASE_URL
 
 const apiCalls = async (method, url, data) => {
     axios.defaults.headers.common.Authorization = `Bearer ${localStorage.token}`
@@ -8,7 +8,7 @@ const apiCalls = async (method, url, data) => {
     try {
         const res = await axios({
             method: method,
-            url: url,
+            url: '/api/'+url,
             data:data
           });
 
