@@ -23,7 +23,7 @@ function Login() {
   return (
     <div className={style.formLoginContainer}>
       <form className={style.formLogin} onSubmit={handleSubmit}>
-        <h2 className={style.header}>LOGIN</h2>
+        <h2 className={style.header}>REGISTER</h2>
         <Input
           className={style.inputLogin}
           type="fullName"
@@ -34,14 +34,6 @@ function Login() {
         />
         <div className={style.login_buttons}>
           <Button type="submit" className={style.login_button} text="register" />
-          <Button
-            onClick={() => {
-              navigate("/login");
-            }}
-            className={style.login_button}
-            text="login"
-            type="text"
-          />
         </div>
       </form>
     </div>
