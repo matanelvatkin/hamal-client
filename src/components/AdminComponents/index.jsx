@@ -8,6 +8,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 export default function AdminComponents() {
   const [allUsers, setAllUsers] = useState([]);
   const [actives, setActives] = useState({actives:0,notActives:0});
+  const [loader,setLoader] = useState({fullName:''})
   const addUserRef  =useRef()
   const getUsers = async () => {
     const results = await apiCalls("get", "user/allusers");
@@ -16,6 +17,7 @@ export default function AdminComponents() {
   };
   const changeActives=(usersArray=[])=>{
     let actives = 0
+    console.log(usersArray);
     let notActives =0
     if (usersArray.length > 0) {
       usersArray.forEach(user =>user.isActive?actives++:notActives++);
@@ -23,12 +25,13 @@ export default function AdminComponents() {
     }
   }
   const updateActive = async (user) => {
+    setLoader(prev=>user)
     await apiCalls("put", "user/update", {
       fullName: user.fullName,
     });
     const results = await apiCalls("get", "user/allusers");
     changeActives(results.data)
-    setAllUsers(results.data);
+    setAllUsers(prev=>results.data);
   };
   const adminAddUser = async (e) => {
     e.preventDefault()
@@ -36,6 +39,12 @@ export default function AdminComponents() {
     getUsers();
     addUserRef.current.value=''
   }
+  useEffect(()=>{
+    console.log(loader);
+    if(loader.fullName){
+      setLoader({fullName:''})
+    }
+  },[allUsers])
   useEffect(()=>{
     getUsers()
   },[])
@@ -53,8 +62,8 @@ export default function AdminComponents() {
           <Button
           className={style.Button}
           type="button"
-          text={user.isActive ? "נוכח" : "לא נוכח"}
-          style={user.isActive?{backgroundColor:'darkgrey'}:{backgroundColor:'red'}}
+          text={loader.fullName===user.fullName?'מעדכן':user.isActive ? "נוכח" : "לא נוכח"}
+          style={loader.fullName===user.fullName?{backgroundColor:'green'}:user.isActive?{backgroundColor:'darkgrey'}:{backgroundColor:'red'}}
           onClick={()=>{updateActive(user)}}
           />
           </div>
