@@ -7,17 +7,27 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 export default function AdminComponents() {
   const [allUsers, setAllUsers] = useState([]);
+  const [actives, setActives] = useState({actives:0,notActives:0});
   const addUserRef  =useRef()
   const getUsers = async () => {
     const results = await apiCalls("get", "user/allusers");
+    changeActives(results.data)
     setAllUsers(results.data);
   };
+  const changeActives=(usersArray=[])=>{
+    let actives = 0
+    let notActives =0
+    if (usersArray.length > 0) {
+      usersArray.forEach(user =>user.isActive?actives++:notActives++);
+      setActives({actives,notActives})
+    }
+  }
   const updateActive = async (user) => {
-    console.log(user);
     await apiCalls("put", "user/update", {
       fullName: user.fullName,
     });
     const results = await apiCalls("get", "user/allusers");
+    changeActives(results.data)
     setAllUsers(results.data);
   };
   const adminAddUser = async (e) => {
@@ -35,19 +45,21 @@ export default function AdminComponents() {
       <Input placeholder='שם מלא' inputRef={addUserRef} className={style.input_admin}/>
       <Button className={style.Button} type='submit' text="הוסף משתמש"/>
       </form>
+      <div><span>נוכחים: {actives.actives}</span>  <span> לא נוכחים: {actives.notActives}</span></div>
       {allUsers.length > 0 &&
-        allUsers.map((user) => (
-          <div key={user._id} className={style.userDiv}>
-            {user.fullName}
-            <Button
-              className={style.Button}
-              type="button"
-              text={user.isActive ? "נוכח" : "לא נוכח"}
-              style={user.isActive?{backgroundColor:'darkgrey'}:{backgroundColor:'red'}}
-              onClick={()=>{updateActive(user)}}
-            />
+        allUsers.map((user) => {
+          return <div key={user._id} className={style.userDiv}>
+          {user.fullName}
+          <Button
+          className={style.Button}
+          type="button"
+          text={user.isActive ? "נוכח" : "לא נוכח"}
+          style={user.isActive?{backgroundColor:'darkgrey'}:{backgroundColor:'red'}}
+          onClick={()=>{updateActive(user)}}
+          />
           </div>
-        ))}
+        }
+        )}
     </div>
   );
 }
