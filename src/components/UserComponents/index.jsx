@@ -24,6 +24,7 @@ export default function UserComponents() {
         className={style.Button}
         type="button"
         text={active ? "נוכח" : "לא נוכח"}
+        style={user.isActive?{backgroundColor:'darkgrey'}:{backgroundColor:'red'}}
         onClick={updateActive}
       />
     </div>

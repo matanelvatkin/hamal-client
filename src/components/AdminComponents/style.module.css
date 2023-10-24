@@ -14,7 +14,7 @@
   align-items: center;
   box-shadow: 0px 2px 0px 2px rgba(255, 255, 255, 0.47);
   padding: 5px;
-  font: var(--font-size-label)
+  font: var(--font-size-label);
 }
 
 .Button {

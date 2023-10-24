@@ -43,6 +43,7 @@ export default function AdminComponents() {
               className={style.Button}
               type="button"
               text={user.isActive ? "נוכח" : "לא נוכח"}
+              style={user.isActive?{backgroundColor:'darkgrey'}:{backgroundColor:'red'}}
               onClick={()=>{updateActive(user)}}
             />
           </div>
