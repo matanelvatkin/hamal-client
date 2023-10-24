@@ -6,7 +6,7 @@ export default function Header( ) {
   return (
     <div className={style.main_header}>
       <span> חמ״ל עפרה</span>
-     <img src="../../../public/logo.png" alt="" />
+     <img src="/logo.png" alt="" />
     </div>
   );
 }
