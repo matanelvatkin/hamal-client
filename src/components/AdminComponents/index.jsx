@@ -11,10 +11,16 @@ export default function AdminComponents() {
   const [allUsers, setAllUsers] = useState([]);
   const [actives, setActives] = useState({ actives: 0, notActives: 0 });
   const [loader, setLoader] = useState("");
-  const [userValue, setUserValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
+  const [allPosition, setAllPosition] = useState([]);
+  const [selectedPositionUser, setSelectedPositionUser] = useState({
+    position: "",
+  });
   const [open, setOpen] = useState();
   const nav = useNavigate();
   const addUserRef = useRef();
+  const addPositionNameRef = useRef();
+  const addPositionNumberRef = useRef();
   const getUsers = async () => {
     const results = await apiCalls("get", "user/allusers");
     changeActives(results.data);
@@ -39,8 +45,7 @@ export default function AdminComponents() {
   };
   const adminAddUser = async (e) => {
     e.preventDefault();
-    console.log(addUserRef.current.value);
-    if (addUserRef.current.value !== '') {
+    if (addUserRef.current.value !== "") {
       await apiCalls("post", "user/userfromadmin", {
         fullName: addUserRef.current.value,
       });
@@ -50,15 +55,44 @@ export default function AdminComponents() {
   };
 
   const deleteUser = async (e) => {
-    await apiCalls("put", "user/deleteuser", userValue)
-    getUsers()
+    await apiCalls("put", "user/deleteuser", selectedValue);
+    getUsers();
     setOpen(false);
-  }
-  const createAdmin = async() => {
-    await apiCalls("put", "user/crateadmin", userValue)
-    getUsers()
+  };
+  const createAdmin = async () => {
+    await apiCalls("put", "user/crateadmin", selectedValue);
+    getUsers();
     setOpen(false);
-  }
+  };
+  const getPositions = async (e) => {
+    const results = await apiCalls("get", "position/allpositions");
+    setAllPosition(results.data);
+  };
+  const addPosition = async (e) => {
+    e.preventDefault();
+    if (addPositionNameRef.current.value !== "") {
+      await apiCalls("post", "position/addposition", {
+        name: addPositionNameRef.current.value,
+        positionNumber: addPositionNumberRef.current.value,
+      });
+      getPositions();
+    } else alert("בבקשה הכנס שם עמדה");
+    addPositionNameRef.current.value = "";
+    addPositionNumberRef.current.value = "";
+  };
+  const deletePosition = async () => {
+    await apiCalls("put", "position/deleteposition", selectedValue);
+    getPositions();
+    setOpen(false);
+  };
+  const addPositionToUser = async (e) => {
+    setLoader('connectUserToPosition')
+    const results = await apiCalls("put", "user/addposition", {
+      position: selectedPositionUser.position,
+      user: selectedPositionUser.user,
+    });
+    getUsers();
+  };
   useEffect(() => {
     if (loader) {
       setLoader("");
@@ -66,6 +100,7 @@ export default function AdminComponents() {
   }, [allUsers]);
   useEffect(() => {
     getUsers();
+    getPositions();
   }, []);
   return (
     <div className={style.main}>
@@ -106,7 +141,8 @@ export default function AdminComponents() {
             allUsers.map((user) => {
               return (
                 <div key={user._id} className={style.userDiv}>
-                  {user.fullName}
+                  <span>{user.fullName}</span>
+                  <span>{user?.position?.name}</span>
                   <Button
                     className={style.Button}
                     type="button"
@@ -150,10 +186,10 @@ export default function AdminComponents() {
             })}
             placeholder={"מחק משתמש"}
             setValues={(value) => {
-              setUserValue(value)
+              setSelectedValue(value);
             }}
           />
-          <Button text='מחק' onClick={deleteUser} className={style.buttonDel}/>
+          <Button text="מחק" onClick={deleteUser} className={style.buttonDel} />
         </div>
       )}
       <Button
@@ -173,10 +209,121 @@ export default function AdminComponents() {
             })}
             placeholder={"בחר משתמש"}
             setValues={(value) => {
-              setUserValue(value)
+              setSelectedValue(value);
             }}
           />
-          <Button text={userValue.role==='admin'?'הסר מניהול':'הגדר כמנהל'} onClick={createAdmin} className={style.buttonDel}/>
+          <Button
+            text={selectedValue.role === "admin" ? "הסר מניהול" : "הגדר כמנהל"}
+            onClick={createAdmin}
+            className={style.buttonDel}
+          />
+        </div>
+      )}
+      <Button
+        text="הוסף עמדה"
+        onClick={() =>
+          setOpen((perv) => {
+            if (perv === "addPosition") return "";
+            return "addPosition";
+          })
+        }
+      />
+      {open === "addPosition" && (
+        <div>
+          <form className={style.form} onSubmit={addPosition}>
+            <Input
+              placeholder="שם"
+              inputRef={addPositionNameRef}
+              className={style.input_admin}
+            />
+            <Input
+              placeholder="מספר"
+              inputRef={addPositionNumberRef}
+              className={style.input_admin}
+            />
+            <Button className={style.Button} type="submit" text="הוסף עמדה" />
+          </form>
+          {allPosition.length > 0 &&
+            allPosition.map((position) => {
+              return (
+                <div key={position._id} className={style.userDiv}>
+                  <span>{position.name}</span>
+                  <span>{position.positionNumber}</span>
+                </div>
+              );
+            })}
+        </div>
+      )}
+      <Button
+        text="מחק עמדה"
+        onClick={() =>
+          setOpen((perv) => {
+            if (perv === "deletePosition") return "";
+            return "deletePosition";
+          })
+        }
+      />
+      {open === "deletePosition" && (
+        <div className={style.deleteUserDiv}>
+          <SelectInput
+            options={allPosition.map((position) => {
+              return { label: position.name, value: position };
+            })}
+            placeholder={"מחק עמדה"}
+            setValues={(value) => {
+              setSelectedValue(value);
+            }}
+          />
+          <Button
+            text="מחק"
+            onClick={deletePosition}
+            className={style.buttonDel}
+          />
+        </div>
+      )}
+      <Button
+        text="קשר משתמש לעמדה"
+        onClick={() =>
+          setOpen((perv) => {
+            if (perv === "addUserToPosistion") return "";
+            return "addUserToPosistion";
+          })
+        }
+      />
+      {open === "addUserToPosistion" && (
+        <div className={style.deleteUserDiv}>
+          <SelectInput
+            options={allPosition.map((position) => {
+              return { label: position.name, value: position };
+            })}
+            placeholder={"עמדה"}
+            setValues={(value) => {
+              setSelectedPositionUser((perv) => {
+                return { ...perv, position: value };
+              });
+            }}
+          />
+          <SelectInput
+            options={allUsers.map((user) => {
+              return { label: user.fullName, value: user };
+            })}
+            placeholder={"משתמש"}
+            setValues={(value) => {
+              setSelectedPositionUser((perv) => {
+                return { ...perv, user: value };
+              });
+            }}
+          />
+          <Button
+            text={loader ?  "מקשר": "קשר"}
+            style={
+              loader === "connectUserToPosition"
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "darkgrey" }
+            }
+            onClick={addPositionToUser}
+            className={style.buttonDel}
+          />
         </div>
       )}
     </div>
