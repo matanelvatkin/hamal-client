@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 import apiCalls from "../../assets/apiCalls";
 import Button from "../Button";
@@ -9,6 +10,7 @@ export default function AdminComponents() {
   const [allUsers, setAllUsers] = useState([]);
   const [actives, setActives] = useState({ actives: 0, notActives: 0 });
   const [loader, setLoader] = useState({ fullName: "" });
+  const nav = useNavigate()
   const addUserRef = useRef();
   const getUsers = async () => {
     const results = await apiCalls("get", "user/allusers");
@@ -52,6 +54,7 @@ export default function AdminComponents() {
   }, []);
   return (
     <div className={style.main}>
+      <Button text='נוכחות' onClick={() => nav('user')}/>
       <form className={style.form} onSubmit={adminAddUser}>
         <Input
           placeholder="שם מלא"

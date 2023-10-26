@@ -8,6 +8,7 @@ import { userContext,} from "../App";
 import { useEffect } from "react";
 import apiCalls from "../assets/apiCalls";
 import HomePage from "../pages/HomePage";
+import AdminComponents from "../components/AdminComponents";
 
 export default function Layout() {
   const navigate = useNavigate()
@@ -33,6 +34,7 @@ export default function Layout() {
       </header>
       <div className={style.main}>
           <Routes>
+            <Route path="/admin" element={<AdminComponents/>}/>
             <Route
               path="/*"
               element={
