@@ -34,9 +34,9 @@ export default function UserComponents() {
         }
         style={
           loader
-            ? { backgroundColor: "green" }
-            : user.isActive
             ? { backgroundColor: "darkgrey" }
+            : user.isActive
+            ? { backgroundColor: "green" }
             : { backgroundColor: "red" }
         }
         onClick={updateActive}
