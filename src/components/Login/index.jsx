@@ -34,12 +34,6 @@ function Login() {
         />
         <div className={style.login_buttons}>
           <Button type="submit" className={style.login_button} text="login" />
-          <Button
-            type="text"
-            className={style.login_button}
-            text="register"
-            onClick={() => navigate("./register")}
-          />
         </div>
       </form>
     </div>

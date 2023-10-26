@@ -35,3 +35,14 @@
   padding-right: 10px;
   width: 25%;
 }
+
+.deleteUserDiv{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonDel{
+  width: 20%;
+  border-radius: 10%;
+}
