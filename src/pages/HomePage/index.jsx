@@ -7,14 +7,18 @@ import UserComponents from "../../components/UserComponents";
 import Button from "../../components/Button";
 
 export default function HomePage() {
-  const {user} = useContext(userContext)
-  const nav = useNavigate()
+  const { user } = useContext(userContext);
+  const nav = useNavigate();
   return (
-        <>
-          <div className={style.home_page}>
-            {user.role==='admin'&&<Button text='ניהול' onClick={()=>nav('./admin')}/>}
-          <UserComponents/>
-          </div>
-        </>
+    <>
+      <div className={style.home_page}>
+        {user.role === "admin" && (
+          <Button text="ניהול" onClick={() => nav("./admin")} />
+        )}
+        <div className={style.user}>
+          <UserComponents />
+        </div>
+      </div>
+    </>
   );
 }
