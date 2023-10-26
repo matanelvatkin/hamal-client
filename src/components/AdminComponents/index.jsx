@@ -10,6 +10,7 @@ export default function AdminComponents() {
   const [allUsers, setAllUsers] = useState([]);
   const [actives, setActives] = useState({ actives: 0, notActives: 0 });
   const [loader, setLoader] = useState({ fullName: "" });
+  const [open, setOpen]= useState()
   const nav = useNavigate()
   const addUserRef = useRef();
   const getUsers = async () => {
@@ -54,19 +55,24 @@ export default function AdminComponents() {
   }, []);
   return (
     <div className={style.main}>
-      <Button text='נוכחות' onClick={() => nav('user')}/>
-      <form className={style.form} onSubmit={adminAddUser}>
+      <Button text='דף הבית' onClick={() => nav('user')}/>
+      <Button text='הוסף משתמש' onClick={()=>setOpen(perv=>{
+        if(perv==='addUser') return ''
+        return 'addUser'})}/>
+      {open==='addUser'&&<form className={style.form} onSubmit={adminAddUser}>
         <Input
           placeholder="שם מלא"
           inputRef={addUserRef}
           className={style.input_admin}
         />
         <Button className={style.Button} type="submit" text="הוסף משתמש" />
-      </form>
-      <div>
+      </form>}
+      <Button text='טבלת משתמשים' onClick={()=>setOpen(perv=>{
+        if(perv==='allUsers') return ''
+        return 'allUsers'})}/>
+      {open==='allUsers'&&<div>
         <span>נוכחים: {actives.actives}</span>{" "}
         <span> לא נוכחים: {actives.notActives}</span>
-      </div>
       {allUsers.length > 0 &&
         allUsers.map((user) => {
           return (
@@ -96,6 +102,7 @@ export default function AdminComponents() {
             </div>
           );
         })}
+    </div>}
     </div>
   );
 }
