@@ -1,5 +1,5 @@
 .home_page{
-    height: 100%;
+    height: calc(100%-75px);
     width: 100%;
     gap: 10px;
 }
