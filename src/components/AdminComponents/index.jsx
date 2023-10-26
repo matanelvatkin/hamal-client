@@ -11,7 +11,7 @@ export default function AdminComponents() {
   const [allUsers, setAllUsers] = useState([]);
   const [actives, setActives] = useState({ actives: 0, notActives: 0 });
   const [loader, setLoader] = useState("");
-  const [delUserValue, setDelUserValue] = useState("");
+  const [userValue, setUserValue] = useState("");
   const [open, setOpen] = useState();
   const nav = useNavigate();
   const addUserRef = useRef();
@@ -50,7 +50,12 @@ export default function AdminComponents() {
   };
 
   const deleteUser = async (e) => {
-    await apiCalls("put", "user/deleteuser", delUserValue)
+    await apiCalls("put", "user/deleteuser", userValue)
+    getUsers()
+    setOpen(false);
+  }
+  const createAdmin = async() => {
+    await apiCalls("put", "user/crateadmin", userValue)
     getUsers()
     setOpen(false);
   }
@@ -145,10 +150,33 @@ export default function AdminComponents() {
             })}
             placeholder={"מחק משתמש"}
             setValues={(value) => {
-              setDelUserValue(value)
+              setUserValue(value)
             }}
           />
           <Button text='מחק' onClick={deleteUser} className={style.buttonDel}/>
+        </div>
+      )}
+      <Button
+        text="הגדר/הסר כמנהל"
+        onClick={() =>
+          setOpen((perv) => {
+            if (perv === "createAdmin") return "";
+            return "createAdmin";
+          })
+        }
+      />
+      {open === "createAdmin" && (
+        <div className={style.deleteUserDiv}>
+          <SelectInput
+            options={allUsers.map((user) => {
+              return { label: user.fullName, value: user };
+            })}
+            placeholder={"בחר משתמש"}
+            setValues={(value) => {
+              setUserValue(value)
+            }}
+          />
+          <Button text={userValue.role==='admin'?'הסר מניהול':'הגדר כמנהל'} onClick={createAdmin} className={style.buttonDel}/>
         </div>
       )}
     </div>
