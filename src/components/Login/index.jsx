@@ -16,9 +16,12 @@ function Login() {
     const data = await apiCalls("post", "user/login", {
       fullName: userFullName.current.value,
     });
-    localStorage.token = data.data.token;
-    setUser(data.data.user);
-    navigate("../home");
+    if(data){
+      localStorage.token = data.data.token;
+      setUser(data.data.user);
+      navigate("../home");
+    }
+    else alert(data)
   };
   return (
     <div className={style.formLoginContainer}>

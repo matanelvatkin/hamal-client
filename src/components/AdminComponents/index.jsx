@@ -282,7 +282,7 @@ export default function AdminComponents() {
         </div>
       )}
       <Button
-        text="קשר משתמש לעמדה"
+        text="ציוות משתמש לעמדה"
         onClick={() =>
           setOpen((perv) => {
             if (perv === "addUserToPosistion") return "";
@@ -315,7 +315,7 @@ export default function AdminComponents() {
             }}
           />
           <Button
-            text={loader ?  "מקשר": "קשר"}
+            text={loader ?  "מצוות": "צוות"}
             style={
               loader === "connectUserToPosition"
                 ? { backgroundColor: "green" }
