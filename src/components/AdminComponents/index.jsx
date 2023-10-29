@@ -329,7 +329,7 @@ export default function AdminComponents() {
       <div className={style.main}>
         <Button
           text="דף הבית"
-          onClick={() => nav("user")}
+          onClick={() => nav("../home")}
           className={style.adminButton}
         />
         <Button
