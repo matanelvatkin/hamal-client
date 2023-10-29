@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import style from "./style.module.css";
 import Header from "../components/Header";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -10,9 +10,11 @@ import apiCalls from "../assets/apiCalls";
 import HomePage from "../pages/HomePage";
 import AdminComponents from "../components/AdminComponents";
 
+
 export default function Layout() {
   const navigate = useNavigate()
   const { user, setUser } = useContext(userContext);
+  const [ popup, setPopup ] = useState();
 
   useEffect(() => {
     const go = async () => {
@@ -33,13 +35,13 @@ export default function Layout() {
       </header>
       <div className={style.main}>
           <Routes>
-            <Route path="/admin" element={<AdminComponents/>}/>
             <Route
               path="/*"
               element={
                 user ? <HomePage  /> : <LoginPage />
               }
-            />
+              />
+            <Route path="/admin" element={<AdminComponents/>}/>
           </Routes>
       </div>
     </div>
