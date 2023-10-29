@@ -14,6 +14,7 @@ const apiCalls = async (method, url, data) => {
         return res
     }
     catch (error) {
+        throw error
     }
 }
 

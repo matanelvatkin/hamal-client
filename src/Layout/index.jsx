@@ -4,45 +4,43 @@ import Header from "../components/Header";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import { useContext } from "react";
-import { userContext,} from "../App";
+import { userContext } from "../App";
 import { useEffect } from "react";
 import apiCalls from "../assets/apiCalls";
 import HomePage from "../pages/HomePage";
 import AdminComponents from "../components/AdminComponents";
 
-
 export default function Layout() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user, setUser } = useContext(userContext);
-  const [ popup, setPopup ] = useState();
 
   useEffect(() => {
     const go = async () => {
-      const results = await apiCalls("get", "user");
-      setUser(results.data);
+      try{
+        const results = await apiCalls("get", "user");
+        setUser(results.data);
+        navigate('./home')
+      }
+      catch(err){
+      navigate("./login");
+      }
     };
     if (!localStorage.token) {
-       setUser(false);
-       navigate("./login")
-    }
-    else if (localStorage.token && (user === "true" || !user)) go();
+      setUser(false);
+      navigate("./login");
+    } else if (localStorage.token && (user === "true" || !user)) go();
   }, []);
-  
   return (
     <div className={style.layout}>
       <header className={style.header}>
-        <Header/>
+        <Header />
       </header>
       <div className={style.main}>
-          <Routes>
-            <Route
-              path="/*"
-              element={
-                user ? <HomePage  /> : <LoginPage />
-              }
-              />
-            <Route path="/admin" element={<AdminComponents/>}/>
-          </Routes>
+        <Routes>
+          <Route path="/*" element={<LoginPage />} />
+          {user&&<Route path="/admin" element={<AdminComponents />} />}
+          {user&&<Route path="/home" element={<HomePage />} />}
+        </Routes>
       </div>
     </div>
   );

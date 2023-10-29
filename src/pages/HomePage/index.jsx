@@ -13,7 +13,7 @@ export default function HomePage() {
     <>
       <div className={style.home_page}>
         {user.role === "admin" && (
-          <Button text="ניהול" onClick={() => nav("./admin")} />
+          <Button text="ניהול" onClick={() => nav("../admin")} />
         )}
         <div className={style.user}>
           <UserComponents />
