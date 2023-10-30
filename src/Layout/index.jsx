@@ -19,10 +19,10 @@ export default function Layout() {
       try{
         const results = await apiCalls("get", "user");
         setUser(results.data);
-        navigate('./home')
+        navigate('./')
       }
       catch(err){
-      navigate("./login");
+      navigate("./");
       }
     };
     if (!localStorage.token) {
