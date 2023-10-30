@@ -37,9 +37,9 @@ export default function Layout() {
       </header>
       <div className={style.main}>
         <Routes>
-          <Route path="./login" element={<LoginPage />} />
-          {user&&<Route path="/admin" element={<AdminComponents />} />}
-          {user&&<Route path="*" element={<HomePage />} />}
+          <Route path="/" element={user?<HomePage />:<LoginPage/>} />
+          <Route path="/*" element={user?<HomePage />:<LoginPage/>} />
+          {user&&user.role==='admin'&&<Route path="/admin" element={<AdminComponents />} />}
         </Routes>
       </div>
     </div>
