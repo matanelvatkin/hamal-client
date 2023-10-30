@@ -27,7 +27,7 @@ export default function Layout() {
     };
     if (!localStorage.token) {
       setUser(false);
-      navigate("./login");
+      navigate("./");
     } else if (localStorage.token && (user === "true" || !user)) go();
   }, []);
   return (
