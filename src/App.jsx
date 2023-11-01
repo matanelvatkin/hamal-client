@@ -9,9 +9,7 @@ function App() {
   const [user,setUser] = useState()
   return (
     <userContext.Provider value={{user,setUser}}>
-      <Routes>
-        <Route path = '/*' element={<Layout/>}/>
-      </Routes>
+        <Layout/>
     </userContext.Provider>
   );
 }
