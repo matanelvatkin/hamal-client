@@ -39,7 +39,7 @@ export default function Layout() {
         <Routes>
           <Route path="/" element={user?<HomePage />:<LoginPage/>} />
           <Route path="/*" element={user?<HomePage />:<LoginPage/>} />
-          {<Route path="/admin" element={user&&user.role==='admin'&&<AdminComponents />} />}
+          {<Route path="/admin" element={user&&user.role==='admin'?<AdminComponents />:<HomePage />} />}
         </Routes>
       </div>
     </div>
