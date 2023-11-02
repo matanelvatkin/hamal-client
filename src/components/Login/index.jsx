@@ -16,12 +16,14 @@ function Login() {
     const data = await apiCalls("post", "user/login", {
       fullName: userFullName.current.value,
     });
-    if(data){
+    if (data) {
       localStorage.token = data.data.token;
       setUser(data.data.user);
-      navigate("../home");
-    }
-    else alert(data)
+      navigate("../");
+    } else alert(data);
+  };
+  const forgetPassword = () => {
+    navigate("../forgotPassword");
   };
   return (
     <div className={style.formLoginContainer}>
@@ -31,12 +33,18 @@ function Login() {
           className={style.inputLogin}
           type="fullName"
           name="input"
-          placeholder="fullName"
+          placeholder="שם מלא"
           required={true}
           inputRef={userFullName}
         />
         <div className={style.login_buttons}>
-          <Button type="submit" className={style.login_button} text="login" />
+          <Button
+            text={"שכחחתי סיסמא"}
+            onClick={forgetPassword}
+            type={"button"}
+            className={style.forgetPassword_button}
+          />
+          <Button type="submit" className={style.login_button} text="היכנס" />
         </div>
       </form>
     </div>
