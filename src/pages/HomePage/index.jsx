@@ -10,7 +10,7 @@ import Input from "../../components/Input";
 
 export default function HomePage() {
   const { user } = useContext(userContext);
-  const [popup, setPopup] = useState(user.email === (undefined || ""));
+  const [popup, setPopup] = useState( prev=>!(user.email !== undefined &&user.email !== ""));
   const emailRef = useRef();
   const passwordRef = useRef();
   const nav = useNavigate();
