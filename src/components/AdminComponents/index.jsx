@@ -48,7 +48,7 @@ export default function AdminComponents() {
     e.preventDefault();
     if (addUserRef.current.value !== "") {
       await apiCalls("post", "user/userfromadmin", {
-        fullName: addUserRef.current.value,
+        fullName: addUserRef.current.value.trim(),
       });
       getUsers();
     } else alert("בבקשה הכנס שם");

@@ -20,7 +20,7 @@ export default function HomePage() {
     const results = await apiCalls("put", "user/updateemail", {
       user,
       password: passwordRef.current.value,
-      email: emailRef.current.value,
+      email: emailRef.current.value.trim(),
     });
     console.log(results);
     setPopup(false);
@@ -29,16 +29,29 @@ export default function HomePage() {
     <>
       {popup && (
         <div className={style.popup}>
-          <p>עקב ביטחות המידע צריך לעדכן מייל וסיסמא תודה</p>
-          <form onSubmit={updateEmail}></form>
-          <Input inputRef={emailRef} placeholder={"אימייל"} type={"text"} />
+          <p>עקב ביטחון המידע</p>
+          <p> צריך לעדכן מייל וסיסמא</p>
+          <form onSubmit={updateEmail} className={style.form}>
+          <Input
+            inputRef={emailRef}
+            placeholder={"אימייל"}
+            type={"text"}
+            className={style.input}
+          />
           <Input
             inputRef={passwordRef}
             placeholder={"סיסמא (8 תווים לפחות אות אחת ומספר אחד)"}
             type={"password"}
             pattern='"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"'
+            className={style.input}
           />
-          <Button text={"עדכן"} type={"submit"} onClick={updateEmail} />
+          <Button
+            text={"עדכן"}
+            type={"submit"}
+            onClick={updateEmail}
+            className={style.Button}
+          />
+          </form>
         </div>
       )}
       <div className={style.home_page}>

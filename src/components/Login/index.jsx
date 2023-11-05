@@ -10,11 +10,13 @@ import { userContext } from "../../App";
 function Login() {
   const { setUser } = useContext(userContext);
   const userFullName = useRef();
+  const passwordRef = useRef();
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await apiCalls("post", "user/login", {
-      fullName: userFullName.current.value,
+      fullName: userFullName.current.value.trim(),
+      password:passwordRef.current.value
     });
     if (data) {
       localStorage.token = data.data.token;
@@ -36,6 +38,14 @@ function Login() {
           placeholder="שם מלא"
           required={true}
           inputRef={userFullName}
+        />
+        <Input
+          className={style.inputLogin}
+          type="password"
+          name="password"
+          placeholder="סיסמא"
+          required={true}
+          inputRef={passwordRef}
         />
         <div className={style.login_buttons}>
           <Button

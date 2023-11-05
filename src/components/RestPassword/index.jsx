@@ -19,7 +19,8 @@ export default function RestPassword() {
   const sendMail = async (e) => {
     e.preventDefault();
     const code = await apiCalls("put", "user/forgetpassword", {
-      email: emailRef.current.value,
+      email: emailRef.current.value.trim(),
+      fullName: userFullName.current.value.trim(),
     });
     setUserName(userFullName.current.value)
     setPage(2);
@@ -37,7 +38,7 @@ export default function RestPassword() {
   const resetPasswords = async (e) => {
     e.preventDefault();
     await apiCalls("put", "user/updatepassword", {
-      fullName: userName,
+      fullName: userName.trim(),
       password: passwordRef.current.value,
     });
     nav('../login')
