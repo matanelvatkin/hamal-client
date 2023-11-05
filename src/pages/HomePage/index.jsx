@@ -16,13 +16,11 @@ export default function HomePage() {
   const nav = useNavigate();
 
   const updateEmail = async (e) => {
-    e.preventDefault();
-    const results = await apiCalls("put", "user/updateemail", {
+    e.preventDefault();await apiCalls("put", "user/updateemail", {
       user,
       password: passwordRef.current.value,
       email: emailRef.current.value.trim(),
     });
-    console.log(results);
     setPopup(false);
   };
   return (

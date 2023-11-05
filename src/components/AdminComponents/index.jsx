@@ -162,9 +162,9 @@ export default function AdminComponents() {
                                 }
                                 style={
                                   loader === user.fullName
-                                    ? { backgroundColor: "green" }
-                                    : user.isActive
                                     ? { backgroundColor: "darkgrey" }
+                                    : user.isActive
+                                    ? { backgroundColor: "green" }
                                     : { backgroundColor: "red" }
                                 }
                                 onClick={() => {
