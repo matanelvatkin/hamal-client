@@ -21,7 +21,6 @@ export default function Layout() {
         const results = await apiCalls("get", "user");
         setUser(results.data);
         navigate('./')
-        console.log(results.data);
       }
       catch(err){
       navigate("./");
@@ -39,7 +38,7 @@ export default function Layout() {
       </header>
       <div className={style.main}>
         <Routes>
-          <Route path="/" element={user?<HomePage />:<LoginPage/>} />
+          <Route path="*" element={user?<HomePage />:<LoginPage/>} />
           <Route path="/forgotPassword" element={<RestPassword/>} />
           <Route path="/*" element={user?<HomePage />:<LoginPage/>} />
           {user&&<Route path="/admin" element={user.role==='admin'?<AdminComponents />:<HomePage />} />}
