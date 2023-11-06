@@ -120,7 +120,7 @@ export default function AdminComponents() {
           />
           <div className={style.mainPopup}>
             {
-            [
+              [
                 {
                   name: "addUser",
                   html: (
@@ -144,36 +144,36 @@ export default function AdminComponents() {
                     <div>
                       <span>נוכחים: {actives.actives}</span>{" "}
                       <span> לא נוכחים: {actives.notActives}</span>
-                      {allUsers.length > 0 &&
-                        allUsers.map((user) => {
-                          return (
-                            <div key={user._id} className={style.userDiv}>
-                              <span>{user.fullName}</span>
-                              <span>{user?.position?.name}</span>
-                              <Button
-                                className={style.Button}
-                                type="button"
-                                text={
-                                  loader === user.fullName
-                                    ? "מעדכן"
-                                    : user.isActive
-                                    ? "נוכח"
-                                    : "לא נוכח"
-                                }
-                                style={
-                                  loader === user.fullName
-                                    ? { backgroundColor: "darkgrey" }
-                                    : user.isActive
-                                    ? { backgroundColor: "green" }
-                                    : { backgroundColor: "red" }
-                                }
-                                onClick={() => {
-                                  updateActive(user);
-                                }}
-                              />
-                            </div>
-                          );
-                        })}
+                        {allUsers.length > 0 &&
+                          allUsers.map((user) => {
+                            return (
+                              <div key={user._id} className={style.userDiv}>
+                                <span className={style.userName}>{user.fullName}</span>
+                                <span className={style.userPosition}>{user?.position?.name}</span>
+                                <Button
+                                  className={style.Button}
+                                  type="button"
+                                  text={
+                                    loader === user.fullName
+                                      ? "מעדכן"
+                                      : user.isActive
+                                      ? "נוכח"
+                                      : "לא נוכח"
+                                  }
+                                  style={
+                                    loader === user.fullName
+                                      ? { backgroundColor: "darkgrey" }
+                                      : user.isActive
+                                      ? { backgroundColor: "green" }
+                                      : { backgroundColor: "red" }
+                                  }
+                                  onClick={() => {
+                                    updateActive(user);
+                                  }}
+                                />
+                              </div>
+                            );
+                          })}
                     </div>
                   ),
                 },
@@ -228,7 +228,10 @@ export default function AdminComponents() {
                   name: "addPosition",
                   html: (
                     <div>
-                      <form className={style.form_add_position} onSubmit={addPosition}>
+                      <form
+                        className={style.form_add_position}
+                        onSubmit={addPosition}
+                      >
                         <Input
                           placeholder="שם"
                           inputRef={addPositionNameRef}
