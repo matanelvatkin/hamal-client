@@ -16,6 +16,7 @@ export default function RestPassword() {
   const [codeFromEmail, setCdeFromEmail] = useState();
   const [userName, setUserName] = useState();
   const [err, setErr] = useState(false);
+  const pattern =/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
   const sendMail = async (e) => {
     e.preventDefault();
     const code = await apiCalls("put", "user/forgetpassword", {
@@ -30,6 +31,7 @@ export default function RestPassword() {
   const checkCode = (e) => {
     e.preventDefault();
     if (codeFromEmail.code == codeRef.current.value) {
+      setErr(false)
       setPage(3);
     } else {
       setErr(true);
@@ -37,10 +39,16 @@ export default function RestPassword() {
   };
   const resetPasswords = async (e) => {
     e.preventDefault();
-    await apiCalls("put", "user/updatepassword", {
-      fullName: userName.trim(),
-      password: passwordRef.current.value,
-    });
+    if(pattern.test(passwordRef.current.value)){
+      await apiCalls("put", "user/updatepassword", {
+        fullName: userName.trim(),
+        password: passwordRef.current.value,
+      });
+      console.log('reset password');
+    }
+    else{
+      setErr('בבקשה הכנס סיסמא באורך 8 תוים עם לפחות אות אחת ומספר אחד')
+    }
     nav('../login')
   };
 
@@ -89,7 +97,7 @@ export default function RestPassword() {
               required={true}
               inputRef={codeRef}
             />
-            {err && <div>הקוד לא נכון, בבקשה תבדוק שוב את האימייל שלך</div>}
+            {err && <div className={style.error}>הקוד לא נכון, בבקשה תבדוק שוב את האימייל שלך</div>}
             <div className={style.login_buttons}>
               <Button
                 type="button"
@@ -110,9 +118,11 @@ export default function RestPassword() {
               type="password"
               name="password"
               placeholder={"סיסמא חדשה (8 תווים לפחות אות אחת ומספר אחד)"}
+              pattern={pattern}
               required={true}
               inputRef={passwordRef}
             />
+            {err&&<span className={style.error}>{err}</span>}
             <div className={style.login_buttons}>
               <Button
                 type="button"

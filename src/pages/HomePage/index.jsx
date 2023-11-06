@@ -11,17 +11,25 @@ import Input from "../../components/Input";
 export default function HomePage() {
   const { user } = useContext(userContext);
   const [popup, setPopup] = useState( prev=>!(user.email !== undefined &&user.email !== ""));
+  const [err,setErr] = useState(false)
   const emailRef = useRef();
   const passwordRef = useRef();
+  const pattern =/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
   const nav = useNavigate();
 
   const updateEmail = async (e) => {
-    e.preventDefault();await apiCalls("put", "user/updateemail", {
-      user,
-      password: passwordRef.current.value,
-      email: emailRef.current.value.trim(),
-    });
-    setPopup(false);
+    e.preventDefault();
+    if(pattern.test(passwordRef.current.value)){
+      await apiCalls("put", "user/updateemail", {
+        user,
+        password: passwordRef.current.value,
+        email: emailRef.current.value.trim(),
+      });
+      setPopup(false);
+    }
+    else{
+      setErr('בבקשה הכנס סיסמא באורך 8 תוים עם לפחות אות אחת ומספר אחד')
+    }
   };
   return (
     <>
@@ -40,9 +48,10 @@ export default function HomePage() {
             inputRef={passwordRef}
             placeholder={"סיסמא (8 תווים לפחות אות אחת ומספר אחד)"}
             type={"password"}
-            pattern='"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"'
+            pattern={pattern}
             className={style.input}
           />
+          {err&&<span className={style.error}>{err}</span>}
           <Button
             text={"עדכן"}
             type={"submit"}

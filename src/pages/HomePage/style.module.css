@@ -58,3 +58,8 @@
   width: 80%;
   height: 50px;
 }
+
+.error{
+  color: red;
+  font-size: 18px;
+}
