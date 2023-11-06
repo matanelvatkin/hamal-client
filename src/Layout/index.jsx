@@ -34,7 +34,7 @@ export default function Layout() {
   return (
     <div className={style.layout}>
       <header className={style.header}>
-        <Header />
+        <Header user={user}/>
       </header>
       <div className={style.main}>
         <Routes>
