@@ -10,6 +10,7 @@ import apiCalls from "../assets/apiCalls";
 import HomePage from "../pages/HomePage";
 import AdminComponents from "../components/AdminComponents";
 import RestPassword from "../components/RestPassword";
+import DevPage from "../pages/DevPage";
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ export default function Layout() {
           <Route path="/forgotPassword" element={<RestPassword/>} />
           <Route path="/*" element={user?<HomePage />:<LoginPage/>} />
           {user&&<Route path="/admin" element={(user.role==='admin'||user.role==='developer')?<AdminComponents />:<HomePage />} />}
+          {user&&<Route path="/dev/*" element={(user.role==='developer')?<DevPage />:<HomePage />} />}
         </Routes>
       </div>
     </div>
