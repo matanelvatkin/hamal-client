@@ -53,7 +53,7 @@ export default function HomePage() {
         </div>
       )}
       <div className={style.home_page}>
-        {user.role === "admin" && (
+        {(user.role === "admin" ||user.role==='developer') && (
           <Button text="ניהול" onClick={() => nav("../admin")} />
         )}
         <div className={style.user}>

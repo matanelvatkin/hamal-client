@@ -41,7 +41,7 @@ export default function Layout() {
           <Route path="*" element={user?<HomePage />:<LoginPage/>} />
           <Route path="/forgotPassword" element={<RestPassword/>} />
           <Route path="/*" element={user?<HomePage />:<LoginPage/>} />
-          {user&&<Route path="/admin" element={user.role==='admin'?<AdminComponents />:<HomePage />} />}
+          {user&&<Route path="/admin" element={(user.role==='admin'||user.role==='developer')?<AdminComponents />:<HomePage />} />}
         </Routes>
       </div>
     </div>
